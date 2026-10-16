@@ -52,7 +52,7 @@ function codeSvg(value: string, color: string, bg: string) {
 
 function sceauSvg(label: string, color: string, font: string) {
   const id = "a" + hash(label);
-  return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><defs><path id="${id}" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs><circle cx="50" cy="50" r="47" fill="none" stroke="${color}" stroke-width="1.4"/><circle cx="50" cy="50" r="41" fill="none" stroke="${color}" stroke-width="0.7" stroke-dasharray="2 2.4"/><text fill="${color}" font-size="7.5" font-family="${font}" letter-spacing="2.4"><textPath href="#${id}" startOffset="50%" text-anchor="middle">AIME · OBJET AUTHENTIFIÉ ·</textPath></text><text x="50" y="57" text-anchor="middle" fill="${color}" font-size="${label.length > 6 ? 12 : 18}" font-family="${font}">${esc(label)}</text></svg>`;
+  return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><defs><path id="${id}" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs><circle cx="50" cy="50" r="47" fill="none" stroke="${color}" stroke-width="1.4"/><circle cx="50" cy="50" r="41" fill="none" stroke="${color}" stroke-width="0.7" stroke-dasharray="2 2.4"/><text fill="${color}" font-size="7.5" font-family="${font}" letter-spacing="2.4"><textPath href="#${id}" startOffset="50%" text-anchor="middle">AIME · CRÉATION DÉCORATIVE ·</textPath></text><text x="50" y="57" text-anchor="middle" fill="${color}" font-size="${label.length > 6 ? 12 : 18}" font-family="${font}">${esc(label)}</text></svg>`;
 }
 
 export function compositionJSON(
@@ -135,8 +135,11 @@ export function compositionHTML(
                 `<div style="display:flex;justify-content:space-between;gap:1em;border-bottom:1px dotted ${col(n.ink)}55;padding-bottom:.25em;${typo}"><span style="opacity:.62;text-transform:uppercase;letter-spacing:.12em;font-size:${n.size * 0.84}cqw">${esc(interpolate(r.k, vars))}</span><span>${esc(interpolate(r.v, vars))}</span></div>`,
             )
             .join("")}</div>`;
-        case "image":
-          return `<div style="${pos}"><img src="${origin}${n.src}" alt="${esc(n.nom)}" style="width:100%;height:100%;object-fit:cover;border-radius:${n.radius || style.radius}px"/></div>`;
+        case "image": {
+          const source = interpolate(n.src ?? "", vars);
+          const resolved = source.startsWith('/') ? origin + source : source;
+          return `<div style="${pos}"><img src="${esc(resolved)}" alt="${esc(n.nom)}" style="width:100%;height:100%;object-fit:cover;border-radius:${n.radius || style.radius}px"/></div>`;
+        }
         case "filet":
           return `<div style="${pos}background:${n.fill === "none" ? col(n.ink) : col(n.fill)}"></div>`;
         case "forme":

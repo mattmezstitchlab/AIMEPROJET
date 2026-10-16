@@ -1,6 +1,7 @@
 import type { AimeStyle } from "./types";
 
 export const STYLES: AimeStyle[] = [
+  { id: "studio-clair", code: "ST-00", nom: "Studio Clair", principe: "Typographie système, lumière et espaces généreux.", usage: "Tous les supports liés du studio", fonts: { display: "Arial, sans-serif", body: "Arial, sans-serif", mono: "ui-monospace, monospace" }, palette: { paper: "#fcfbf7", ink: "#242b22", accent: "#617558", alt: "#747c6c", muted: "#e5e9df" }, radius: 4, rule: 0.6, tracking: 0, majTitre: false, texture: "aucune" },
   {
     id: "encre-seche",
     code: "ST-01",

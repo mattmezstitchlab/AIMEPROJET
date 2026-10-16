@@ -15,10 +15,10 @@ export default function StylesPage() {
   const billet = useMemo(() => buildComposition("o-billet", "B2", "encre-seche"), []);
 
   return (
-    <div>
+    <div className="collection-page">
       <PageTitre
         code="02 · Styles universels"
-        titre="Huit directions artistiques"
+        titre={`${STYLES.length} directions. Votre expression.`}
         chapeau="Un style est un jeu cohérent de constantes : deux à trois familles typographiques, cinq encres nommées, un rayon, un filet, une texture. Appliqué à une composition, il redéfinit tous les objets sans toucher à leur structure ni à leur contenu."
       />
 
@@ -54,7 +54,7 @@ export default function StylesPage() {
                     active={comp?.styleId === s.id}
                     onClick={() => {
                       patchComp({ styleId: s.id });
-                      nav("/atelier");
+                      nav("/metamorphose?vue=canevas");
                     }}
                   >
                     {comp?.styleId === s.id ? "Style actif" : "Appliquer à la composition"}

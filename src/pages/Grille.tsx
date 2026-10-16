@@ -27,10 +27,10 @@ export default function Grille() {
   const sup = supportById(comp?.supportId ?? "carte-a6");
 
   return (
-    <div>
+    <div className="collection-page">
       <PageTitre
         code="03 · Grille Universelle"
-        titre="Vingt-quatre archétypes"
+        titre="Une information. Vingt-quatre compositions."
         chapeau="La Grille Universelle compte douze colonnes et seize lignes, quel que soit le support. Les vingt-quatre archétypes de la bibliothèque MÉTAMORPHOSE sont des partitions de cette grille, groupées en six familles de composition."
       />
 
@@ -66,7 +66,7 @@ export default function Grille() {
             </div>
             <div className="p-4 border-t border-line flex-1 flex flex-col">
               <div className="flex items-center gap-2">
-                <Tag color="#d4512a">{a.code}</Tag>
+                <Tag color="#617558">{a.code}</Tag>
                 <Tag>{a.groupe}</Tag>
               </div>
               <h3 className="font-display text-[22px] leading-tight mt-2 text-chalk">{a.nom}</h3>
@@ -76,7 +76,7 @@ export default function Grille() {
                   tone="accent"
                   onClick={() => {
                     appliquerArchetype(a.id);
-                    nav("/atelier");
+                    nav("/metamorphose?vue=canevas");
                   }}
                 >
                   Appliquer

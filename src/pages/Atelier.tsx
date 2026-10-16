@@ -420,6 +420,8 @@ export default function Atelier() {
                         <span className="font-mono text-[9px] text-sauge w-[74px] shrink-0 truncate">{v.cle}</span>
                         <input
                           value={v.valeur}
+                          readOnly={v.cle === "date" || v.cle === "studio_data_version"}
+                          title={v.cle === "date" ? "Date calculée : modifiez date_iso ou utilisez les Informations partagées" : v.note}
                           onChange={(e) => setVar(v.cle, e.target.value)}
                           className="flex-1 min-w-0 bg-vault-3 border border-line px-1.5 py-[3px] font-mono text-[10px] text-chalk outline-none focus:border-vermillon"
                         />

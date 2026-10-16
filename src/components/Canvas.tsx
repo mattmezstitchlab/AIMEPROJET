@@ -57,7 +57,7 @@ export function Canvas({
 
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
-      if (!selId || editing) return;
+      if (!selId || editing || (e.target instanceof HTMLElement && (e.target.matches("input, textarea, select") || e.target.isContentEditable))) return;
       const n = comp.nodes.find((x) => x.id === selId);
       if (!n || n.locked) return;
       const step = e.shiftKey ? 1 : 0.25;
@@ -86,6 +86,7 @@ export function Canvas({
   return (
     <div
       ref={innerRef}
+      data-artwork="true"
       className="print-area relative shadow-[0_30px_80px_-20px_rgba(0,0,0,0.75)]"
       style={{
         aspectRatio: support.w / support.h,

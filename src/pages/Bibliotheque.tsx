@@ -1,3 +1,4 @@
+import "../components/material-objects.css";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FAMILLES, OBJETS } from "../lib/objects";
@@ -12,9 +13,9 @@ import { Btn, Tag } from "../components/ui";
 
 export default function Bibliotheque() {
   const [famille, setFamille] = useState<string>("toutes");
-  const { projet, nouvelleComposition, comp } = useAime();
+  const { projet, nouvelleComposition } = useAime();
   const nav = useNavigate();
-  const styleId = comp?.styleId ?? "encre-seche";
+  const styleId = "studio-clair";
 
   const apercus = useMemo(
     () =>
@@ -28,11 +29,11 @@ export default function Bibliotheque() {
   const liste = apercus.filter((a) => famille === "toutes" || a.objet.famille === famille);
 
   return (
-    <div>
+    <div className="modern-library">
       <PageTitre
         code="01 · Bibliothèque"
-        titre="Quarante-huit objets typés"
-        chapeau="Huit familles, six objets par famille. Chaque objet possède une structure, des propriétés héritées des six groupes universels, et un archétype de composition par défaut — modifiable à tout moment."
+        titre="Les essentiels. Réinventés."
+        chapeau="Une collection de supports sobres et contemporains. Typographie nette, espaces généreux et informations liées : chaque modèle devient le vôtre, sans tout ressaisir."
       />
 
       <div className="sticky top-0 z-30 bg-vault/95 backdrop-blur border-b border-line px-5 sm:px-10 py-3 flex flex-wrap gap-2">
@@ -47,7 +48,7 @@ export default function Bibliotheque() {
               famille === f.id ? "text-vault" : "text-chalk-dim hover:text-chalk"
             }`}
             style={{
-              borderColor: famille === f.id ? f.teinte : "#3a3329",
+              borderColor: famille === f.id ? f.teinte : "#e2e5de",
               background: famille === f.id ? f.teinte : "transparent",
             }}
           >
@@ -62,7 +63,7 @@ export default function Bibliotheque() {
           const sup = supportById(objet.support);
           const arc = archetypeById(objet.archetype);
           return (
-            <article key={objet.id} className="border border-line bg-vault-2/30 flex flex-col group">
+            <article key={objet.id} className="library-card border border-line bg-vault-2/30 flex flex-col group">
               <div className="p-5 bg-vault-3/40 flex items-center justify-center min-h-[230px]">
                 <div
                   className="w-full transition-transform duration-500 group-hover:scale-[1.02] shadow-[0_18px_40px_-18px_rgba(0,0,0,0.8)]"

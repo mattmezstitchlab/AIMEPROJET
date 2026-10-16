@@ -170,7 +170,7 @@ export function buildNodes(objetId: string, archetypeId: string): AimeNode[] {
   return arc.slots.map((s) => nodeFromSlot(objet, s)).filter(Boolean) as AimeNode[];
 }
 
-export function buildComposition(objetId: string, archetypeId?: string, styleId = "encre-seche"): Composition {
+export function buildComposition(objetId: string, archetypeId?: string, styleId = "studio-clair"): Composition {
   const objet = objetById(objetId);
   const arc = archetypeId ?? objet.archetype;
   return {
@@ -180,7 +180,15 @@ export function buildComposition(objetId: string, archetypeId?: string, styleId 
     supportId: objet.support,
     styleId,
     archetypeId: arc,
-    nodes: buildNodes(objet.id, arc),
+    nodes: buildNodes(objet.id, arc).map(node => styleId !== 'studio-clair' ? node : ({
+      ...node,
+      tracking: ['titre', 'soustitre', 'corps', 'meta'].includes(node.role) ? 0 : node.tracking,
+      italique: false,
+      casse: node.role === 'surtitre' ? 'capitales' : 'normale',
+      weight: node.role === 'titre' ? 600 : node.role === 'meta' ? 400 : node.weight,
+      leading: node.role === 'titre' ? 1.08 : Math.max(node.leading, 1.4),
+    })),
+
     fondPerdu: false,
     reperes: false,
     grille: true,

@@ -1,10 +1,19 @@
+import "../pages/design-system.css";
 import { NavLink, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { to: "/", code: "◆", label: "Métamorphose" },
+  { to: "/", code: "◌", label: "Découvrir" },
+  { to: "/espace", code: "◆", label: "Mon bureau" },
+  { to: "/metamorphose", code: "◇", label: "Studio · Métamorphose" },
+  { to: "/informations", code: "↗", label: "Informations" },
+  { to: "/templates", code: "◇", label: "Sites & templates" },
+  { to: "/participations", code: "↔", label: "Participations mariage" },
+  { to: "/personnes", code: "◎", label: "Personnes & prestataires" },
+  { to: "/poste", code: "✉", label: "Poste" },
+  { to: "/kits", code: "▣", label: "Kits & livraisons" },
   { to: "/vision", code: "00", label: "Vision" },
   { to: "/bibliotheque", code: "01", label: "Bibliothèque" },
   { to: "/styles", code: "02", label: "Styles" },
@@ -19,19 +28,19 @@ export function Shell({ children }: { children: ReactNode }) {
   const plein = loc.pathname === "/atelier";
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      <aside className="no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
+    <div className="aime-shell min-h-screen flex flex-col lg:flex-row">
+      <aside className="relative no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
         <div className="flex lg:flex-col w-full">
           <div className="flex items-center justify-between px-4 py-3 lg:py-5 lg:border-b border-line w-full">
-            <NavLink to="/" className="group" title="Revenir au canevas MÉTAMORPHOSE">
+            <NavLink to="/" className="group" title="Revenir à l’espace AIME Studio">
               <div className="font-display text-[26px] leading-none tracking-[0.12em] text-chalk">
                 AIME<span className="text-vermillon">®</span>
               </div>
               <div className="font-mono text-[8.5px] uppercase tracking-[0.22em] text-chalk-dim mt-1">
-                Bibliothèque universelle
+                Studio de création
               </div>
             </NavLink>
-            <button className="lg:hidden text-chalk-dim" onClick={() => setOpen(!open)} aria-label="Menu">
+            <button className="lg:hidden text-chalk-dim" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
@@ -39,7 +48,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <nav
             className={`${open ? "block" : "hidden"} lg:block absolute lg:static top-full left-0 right-0 bg-vault border-b lg:border-0 border-line`}
           >
-            {NAV.map((n) => (
+            {NAV.filter(n => ["/", "/espace", "/metamorphose", "/kits"].includes(n.to)).map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
@@ -61,12 +70,13 @@ export function Shell({ children }: { children: ReactNode }) {
                 )}
               </NavLink>
             ))}
+            <details className="desk-tools"><summary>Outils & univers</summary>{NAV.filter(n=>!["/", "/espace", "/metamorphose", "/kits"].includes(n.to)).map(n=><NavLink key={n.to} to={n.to} onClick={()=>setOpen(false)} className="block text-chalk-dim">{n.label}</NavLink>)}<NavLink to="/univers/mariage" onClick={()=>setOpen(false)} className="block text-chalk-dim">Univers mariage</NavLink></details>
           </nav>
         </div>
 
         <div className="hidden lg:block mt-auto p-4 border-t border-line">
           <p className="font-mono text-[9px] leading-relaxed text-chalk-dim/70 uppercase tracking-[0.14em]">
-            V1 · MÉTAMORPHOSE
+            AIME Studio
             <br />
             Matière → Objet → Composition
             <br />
