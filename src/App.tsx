@@ -13,6 +13,9 @@ import { lazy, Suspense } from "react";
 const Landing = lazy(() => import("./pages/Landing"));
 import Workspace from "./pages/Workspace";
 import Poste from "./pages/Poste";
+const People = lazy(() => import("./pages/People"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Templates = lazy(() => import("./pages/Templates"));
 import Kits from "./pages/Kits";
 
 export default function App() {
@@ -28,6 +31,9 @@ export default function App() {
             element={
               <Shell>
                 <Routes>
+                  <Route path="/personnes" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><People /></Suspense>} />
+                  <Route path="/personnes/:id" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><Profile /></Suspense>} />
+                  <Route path="/templates" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><Templates /></Suspense>} />
                   <Route path="/poste" element={<Poste />} />
                   <Route path="/kits" element={<Kits />} />
                   <Route path="/informations" element={<SharedInformation />} />

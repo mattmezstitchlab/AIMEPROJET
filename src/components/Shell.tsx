@@ -8,6 +8,8 @@ const NAV = [
   { to: "/espace", code: "◆", label: "Mon espace" },
   { to: "/metamorphose", code: "◇", label: "Canevas" },
   { to: "/informations", code: "↗", label: "Informations" },
+  { to: "/templates", code: "◇", label: "Sites & templates" },
+  { to: "/personnes", code: "◎", label: "Personnes & prestataires" },
   { to: "/poste", code: "✉", label: "Poste" },
   { to: "/kits", code: "▣", label: "Kits & livraisons" },
   { to: "/vision", code: "00", label: "Vision" },
