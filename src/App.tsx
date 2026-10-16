@@ -8,14 +8,15 @@ import Grille from "./pages/Grille";
 import Atelier from "./pages/Atelier";
 import Specification from "./pages/Specification";
 import Metamorphose from "./pages/Metamorphose";
+import EventKit from "./pages/EventKit";
 
 export default function App() {
   return (
     <AimeProvider>
       <BrowserRouter>
         <Routes>
-          {/* Espace de création unique — canevas universel de transformation */}
-          <Route path="/" element={<Metamorphose />} />
+          <Route path="/" element={<EventKit />} />
+          <Route path="/metamorphose" element={<Metamorphose />} />
           <Route
             path="*"
             element={
