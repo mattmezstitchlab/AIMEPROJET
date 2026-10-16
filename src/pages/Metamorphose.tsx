@@ -284,6 +284,7 @@ export default function Metamorphose() {
       {/* ——— Header ——— */}
       <header className="studio-header no-print relative z-50 border-b border-line px-3 py-2 flex items-center gap-2 flex-wrap">
         <Link to="/" className="studio-logo" aria-label="Accueil AIME">aime<span>studio</span></Link>
+        <span className="studio-metaphor">Métamorphose · La forme change, les liens restent.</span>
         <Link to="/espace" className="studio-back">Mon espace ↗</Link>
         <Link to="/informations" className="studio-data-link">Informations partagées ↗</Link>
         {capsules.map((c) => (

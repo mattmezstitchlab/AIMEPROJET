@@ -31,3 +31,12 @@ test('editing profile fields changes exports without mutating the card',()=>{
  assert.ok(html.includes(person.journey));
  assert.equal(JSON.stringify(person),before);
 });
+
+test('template directions produce distinct layouts while preserving the same content',()=>{
+ const args=['Camille & Noé','Notre union',[{title:'Programme',text:'Cérémonie à 16 h'}],'','#54644c','serif'] as const;
+ const editorial=siteHTML(args[0],args[1],[...args[2]],args[3],args[4],args[5],'editorial');
+ const nature=siteHTML(args[0],args[1],[...args[2]],args[3],args[4],args[5],'nature');
+ const modern=siteHTML(args[0],args[1],[...args[2]],args[3],args[4],args[5],'modern');
+ assert.notEqual(editorial,nature);assert.notEqual(nature,modern);
+ for(const html of [editorial,nature,modern])assert.ok(html.includes('Cérémonie à 16 h'));
+});

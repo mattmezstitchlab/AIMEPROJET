@@ -1,3 +1,4 @@
+import "../pages/design-system.css";
 import { NavLink, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { Menu, X } from "lucide-react";
 const NAV = [
   { to: "/", code: "◌", label: "Découvrir AIME" },
   { to: "/espace", code: "◆", label: "Mon espace" },
-  { to: "/metamorphose", code: "◇", label: "Canevas" },
+  { to: "/metamorphose", code: "◇", label: "Studio · Métamorphose" },
   { to: "/informations", code: "↗", label: "Informations" },
   { to: "/templates", code: "◇", label: "Sites & templates" },
   { to: "/participations", code: "↔", label: "Participations mariage" },
@@ -27,8 +28,8 @@ export function Shell({ children }: { children: ReactNode }) {
   const plein = loc.pathname === "/atelier";
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      <aside className="no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
+    <div className="aime-shell min-h-screen flex flex-col lg:flex-row">
+      <aside className="relative no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
         <div className="flex lg:flex-col w-full">
           <div className="flex items-center justify-between px-4 py-3 lg:py-5 lg:border-b border-line w-full">
             <NavLink to="/" className="group" title="Revenir à l’espace AIME Studio">
@@ -39,7 +40,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 Studio de création
               </div>
             </NavLink>
-            <button className="lg:hidden text-chalk-dim" onClick={() => setOpen(!open)} aria-label="Menu">
+            <button className="lg:hidden text-chalk-dim" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
