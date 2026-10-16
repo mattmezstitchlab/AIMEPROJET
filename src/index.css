@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vault: #15120e;
+  --color-vault-2: #1d1914;
+  --color-vault-3: #28231c;
+  --color-line: #3a3329;
+  --color-chalk: #ede6d8;
+  --color-chalk-dim: #9a9181;
+  --color-vermillon: #d4512a;
+  --color-cuivre: #c9a227;
+  --color-sauge: #85a07c;
+  --color-paper: #f4efe4;
+
+  --font-display: "Bodoni Moda", serif;
+  --font-body: "Spectral", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-vault);
+  color: var(--color-chalk);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-vermillon);
+  color: #fff;
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.rule-grid {
+  background-image: linear-gradient(to right, rgba(237, 230, 216, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(237, 230, 216, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+input[type="range"] {
+  accent-color: var(--color-vermillon);
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible !important;
+  }
+  .print-area {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

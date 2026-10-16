@@ -1,0 +1,39 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Shell } from "./components/Shell";
+import { AimeProvider } from "./lib/store";
+import Accueil from "./pages/Accueil";
+import Bibliotheque from "./pages/Bibliotheque";
+import StylesPage from "./pages/StylesPage";
+import Grille from "./pages/Grille";
+import Atelier from "./pages/Atelier";
+import Specification from "./pages/Specification";
+import Metamorphose from "./pages/Metamorphose";
+
+export default function App() {
+  return (
+    <AimeProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Espace de création unique — canevas universel de transformation */}
+          <Route path="/" element={<Metamorphose />} />
+          <Route
+            path="*"
+            element={
+              <Shell>
+                <Routes>
+                  <Route path="/vision" element={<Accueil />} />
+                  <Route path="/bibliotheque" element={<Bibliotheque />} />
+                  <Route path="/styles" element={<StylesPage />} />
+                  <Route path="/grille" element={<Grille />} />
+                  <Route path="/atelier" element={<Atelier />} />
+                  <Route path="/specification" element={<Specification />} />
+                  <Route path="*" element={<Accueil />} />
+                </Routes>
+              </Shell>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AimeProvider>
+  );
+}
