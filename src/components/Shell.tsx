@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { to: "/", code: "◆", label: "Mon espace" },
+  { to: "/", code: "◌", label: "Découvrir AIME" },
+  { to: "/espace", code: "◆", label: "Mon espace" },
   { to: "/metamorphose", code: "◇", label: "Canevas" },
   { to: "/informations", code: "↗", label: "Informations" },
   { to: "/poste", code: "✉", label: "Poste" },

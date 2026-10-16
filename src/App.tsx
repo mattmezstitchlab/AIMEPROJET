@@ -9,6 +9,8 @@ import Grille from "./pages/Grille";
 import Atelier from "./pages/Atelier";
 import Specification from "./pages/Specification";
 import Metamorphose from "./pages/Metamorphose";
+import { lazy, Suspense } from "react";
+const Landing = lazy(() => import("./pages/Landing"));
 import Workspace from "./pages/Workspace";
 import Poste from "./pages/Poste";
 import Kits from "./pages/Kits";
@@ -18,7 +20,8 @@ export default function App() {
     <AimeProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Workspace />} />
+          <Route path="/" element={<Suspense fallback={<p role="status" className="p-8">Chargement d’AIME…</p>}><Landing /></Suspense>} />
+          <Route path="/espace" element={<Workspace />} />
           <Route path="/metamorphose" element={<Metamorphose />} />
           <Route
             path="*"
