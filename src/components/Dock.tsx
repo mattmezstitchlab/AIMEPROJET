@@ -24,8 +24,8 @@ export function Dock({
   const [replie, setReplie] = useState(false);
 
   return (
-    <div className="no-print pointer-events-none fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-3 px-3">
-      <div className="pointer-events-auto border border-line bg-vault/95 backdrop-blur shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.9)]">
+    <div className="studio-dock no-print pointer-events-none fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-3 px-3">
+      <div className="studio-dock-surface pointer-events-auto border border-line bg-vault/95 backdrop-blur shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.9)]">
         {!replie && (
           <div className="flex items-center gap-2 px-2.5 py-2 flex-wrap justify-center">
             <div className="flex gap-1">
@@ -41,7 +41,7 @@ export function Dock({
             </div>
 
             <div className="flex items-center gap-1 border border-line px-1.5 py-0.5">
-              <button onClick={() => setZoom(Math.max(0.4, +(zoom - 0.1).toFixed(2)))} className="text-chalk-dim hover:text-chalk p-1">
+              <button onClick={() => setZoom(Math.max(0.4, +(zoom - 0.1).toFixed(2)))} aria-label="Réduire le zoom" className="text-chalk-dim hover:text-chalk p-1">
                 <Minus size={11} />
               </button>
               <button
@@ -50,7 +50,7 @@ export function Dock({
               >
                 {Math.round(zoom * 100)}%
               </button>
-              <button onClick={() => setZoom(Math.min(2, +(zoom + 0.1).toFixed(2)))} className="text-chalk-dim hover:text-chalk p-1">
+              <button aria-label="Augmenter le zoom" onClick={() => setZoom(Math.min(2, +(zoom + 0.1).toFixed(2)))} className="text-chalk-dim hover:text-chalk p-1">
                 <Plus size={11} />
               </button>
             </div>
@@ -58,9 +58,9 @@ export function Dock({
             <div className="flex items-stretch border border-line">
               {(
                 [
-                  ["ai", "AI", "Comprendre, proposer, guider"],
+                  ["ai", "Assistant", "Comprendre, proposer, guider"],
                   ["plus", "+", "Créer, importer, ajouter"],
-                  ["me", "ME", "Informations partagées, préférences, créations"],
+                  ["me", "Mon projet", "Informations partagées, préférences, créations"],
                 ] as [ZoneAime, string, string][]
               ).map(([z, l, t]) => (
                 <button

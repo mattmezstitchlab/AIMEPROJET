@@ -1,3 +1,4 @@
+import "./studio.css";
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toPng } from "html-to-image";
@@ -279,20 +280,16 @@ export default function Metamorphose() {
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-vault text-chalk overflow-hidden">
+    <div className="aime-studio h-screen flex flex-col bg-vault text-chalk overflow-hidden">
       {/* ——— Header ——— */}
-      <header className="no-print relative z-50 border-b border-line px-3 py-2 flex items-center gap-2 flex-wrap">
-        <Link to="/" className="font-display text-[22px] leading-none tracking-[0.1em] mr-1">
-          AIME<span className="text-vermillon">®</span>
-        </Link>
-        <span className="font-mono text-[8.5px] uppercase tracking-[0.22em] text-chalk-dim hidden sm:block mr-2">
-          Métamorphose
-        </span>
-
+      <header className="studio-header no-print relative z-50 border-b border-line px-3 py-2 flex items-center gap-2 flex-wrap">
+        <Link to="/" className="studio-logo" aria-label="Accueil AIME">aime<span>studio</span></Link>
+        <Link to="/espace" className="studio-back">Mon espace ↗</Link>
         <Link to="/informations" className="studio-data-link">Informations partagées ↗</Link>
         {capsules.map((c) => (
           <button
             key={c.id}
+            aria-pressed={menu === c.id}
             onClick={() => setMenu(menu === c.id ? null : c.id)}
             className={`font-mono text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 border rounded-full transition-colors ${
               menu === c.id ? "border-vermillon bg-vermillon/15 text-vermillon" : "border-line text-chalk-dim hover:text-chalk"
@@ -302,6 +299,7 @@ export default function Metamorphose() {
           </button>
         ))}
         <button
+          aria-pressed={vue === "apercu"}
           onClick={() => {
             setVue(vue === "apercu" ? "canevas" : "apercu");
             setMenu(null);
@@ -321,7 +319,7 @@ export default function Metamorphose() {
         </div>
 
         {menu && (
-          <div className="absolute left-2 right-2 top-full mt-1 border border-line bg-vault/98 backdrop-blur p-4 max-h-[60vh] overflow-y-auto scroll-thin shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)]">
+          <div className="studio-menu absolute left-2 right-2 top-full mt-1 border border-line bg-vault/98 backdrop-blur p-4 max-h-[60vh] overflow-y-auto scroll-thin shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)]">
             {menu === "projet" && (
               <div className="grid md:grid-cols-3 gap-5">
                 <div>
@@ -603,9 +601,10 @@ export default function Metamorphose() {
       />
 
       {/* ——— Corps ——— */}
-      <div className="flex-1 grid lg:grid-cols-[232px_1fr_300px] min-h-0">
+      <div className="studio-layout flex-1 grid lg:grid-cols-[232px_1fr_300px] min-h-0">
         {/* Colonne gauche */}
-        <aside className="no-print border-r border-line flex flex-col min-h-0 overflow-y-auto scroll-thin">
+        <aside className="studio-library no-print border-r border-line flex flex-col min-h-0 overflow-y-auto scroll-thin">
+          <div className="studio-panel-heading"><span>VOTRE PROJET</span><h2>Tout reste lié.</h2><p>Sources, créations et supports.</p></div>
           {(
             [
               ["projet", "Projet", ["pages", "fragments", "calques", "sources"]],
@@ -673,7 +672,7 @@ export default function Metamorphose() {
         </aside>
 
         {/* Centre */}
-        <section className="relative min-h-0 bg-vault-2/40 flex flex-col">
+        <section className="studio-stage relative min-h-0 bg-vault-2/40 flex flex-col">
           <div className="absolute inset-0 rule-grid opacity-25 pointer-events-none no-print" />
 
           {vue !== "accueil" && (
@@ -814,7 +813,7 @@ export default function Metamorphose() {
         </section>
 
         {/* Inspecteur contextuel */}
-        <aside className="no-print border-l border-line overflow-y-auto scroll-thin pb-24">
+        <aside className="studio-inspector no-print border-l border-line overflow-y-auto scroll-thin pb-24">
           {inspecte ? (
             <FragmentInspector frag={inspecte} onClose={() => setFragInspect(null)} />
           ) : selId ? (
@@ -823,8 +822,7 @@ export default function Metamorphose() {
             <div className="p-5 text-center">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-chalk-dim">Inspecteur</p>
               <p className="mt-3 text-sm text-chalk-dim leading-relaxed">
-                Rien n'est sélectionné. Choisissez un fragment, ou un objet sur le canevas, pour afficher ses
-                propriétés, sa source et ses contraintes.
+                Sélectionnez une création pour lui donner votre touche. Ses réglages et ses informations liées apparaîtront ici.
               </p>
             </div>
           )}
@@ -890,13 +888,13 @@ function Accueil({
   return (
     <div className="h-full grid place-items-center">
       <div className="w-full max-w-[640px] rise">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-vermillon text-center">
-          Une source → plusieurs fragments → plusieurs supports
-        </p>
+        <div className="studio-welcome-visual" aria-hidden="true"><img src="/img/byaime/stationery.webp" alt="" /></div>
+        <p className="studio-eyebrow">VOS IDÉES. TOUTES LEURS EXPRESSIONS.</p>
         <h1 className="mt-4 font-display text-[clamp(1.9rem,4.4vw,3rem)] leading-[1.05] text-center text-chalk">
-          Que souhaitez-vous créer ou transformer&nbsp;?
+          Une idée prend forme.<br />Les liens restent.
         </h1>
 
+        <p className="studio-welcome-copy">Importez une source, composez un support et retrouvez vos informations communes dans chaque création liée.</p>
         <div className="mt-7 flex gap-1.5">
           <input
             value={champ}
