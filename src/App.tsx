@@ -10,7 +10,8 @@ import Atelier from "./pages/Atelier";
 import Specification from "./pages/Specification";
 import Metamorphose from "./pages/Metamorphose";
 import { lazy, Suspense } from "react";
-const Landing = lazy(() => import("./pages/Landing"));
+const Landing = lazy(() => import("./pages/LivingDesk"));
+const WeddingLanding = lazy(() => import("./pages/Landing"));
 import Workspace from "./pages/Workspace";
 import Poste from "./pages/Poste";
 const People = lazy(() => import("./pages/People"));
@@ -25,6 +26,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Suspense fallback={<p role="status" className="p-8">Chargement d’AIME…</p>}><Landing /></Suspense>} />
+          <Route path="/univers/mariage" element={<Suspense fallback={<p role="status">Chargement…</p>}><WeddingLanding /></Suspense>} />
           <Route path="/espace" element={<Workspace />} />
           <Route path="/metamorphose" element={<Metamorphose />} />
           <Route

@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { to: "/", code: "◌", label: "Découvrir AIME" },
-  { to: "/espace", code: "◆", label: "Mon espace" },
+  { to: "/", code: "◌", label: "Découvrir" },
+  { to: "/espace", code: "◆", label: "Mon bureau" },
   { to: "/metamorphose", code: "◇", label: "Studio · Métamorphose" },
   { to: "/informations", code: "↗", label: "Informations" },
   { to: "/templates", code: "◇", label: "Sites & templates" },
@@ -48,7 +48,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <nav
             className={`${open ? "block" : "hidden"} lg:block absolute lg:static top-full left-0 right-0 bg-vault border-b lg:border-0 border-line`}
           >
-            {NAV.map((n) => (
+            {NAV.filter(n => ["/", "/espace", "/metamorphose", "/kits"].includes(n.to)).map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
@@ -70,6 +70,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 )}
               </NavLink>
             ))}
+            <details className="desk-tools"><summary>Outils & univers</summary>{NAV.filter(n=>!["/", "/espace", "/metamorphose", "/kits"].includes(n.to)).map(n=><NavLink key={n.to} to={n.to} onClick={()=>setOpen(false)} className="block text-chalk-dim">{n.label}</NavLink>)}<NavLink to="/univers/mariage" onClick={()=>setOpen(false)} className="block text-chalk-dim">Univers mariage</NavLink></details>
           </nav>
         </div>
 
