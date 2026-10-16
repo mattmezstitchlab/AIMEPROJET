@@ -15,6 +15,7 @@ import Workspace from "./pages/Workspace";
 import Poste from "./pages/Poste";
 const People = lazy(() => import("./pages/People"));
 const Profile = lazy(() => import("./pages/Profile"));
+const Participations = lazy(() => import("./pages/Participations"));
 const Templates = lazy(() => import("./pages/Templates"));
 import Kits from "./pages/Kits";
 
@@ -31,6 +32,7 @@ export default function App() {
             element={
               <Shell>
                 <Routes>
+                  <Route path="/participations" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><Participations /></Suspense>} />
                   <Route path="/personnes" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><People /></Suspense>} />
                   <Route path="/personnes/:id" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><Profile /></Suspense>} />
                   <Route path="/templates" element={<Suspense fallback={<p role="status" className="p-8">Chargement…</p>}><Templates /></Suspense>} />

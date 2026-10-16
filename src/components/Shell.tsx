@@ -9,6 +9,7 @@ const NAV = [
   { to: "/metamorphose", code: "◇", label: "Canevas" },
   { to: "/informations", code: "↗", label: "Informations" },
   { to: "/templates", code: "◇", label: "Sites & templates" },
+  { to: "/participations", code: "↔", label: "Participations mariage" },
   { to: "/personnes", code: "◎", label: "Personnes & prestataires" },
   { to: "/poste", code: "✉", label: "Poste" },
   { to: "/kits", code: "▣", label: "Kits & livraisons" },

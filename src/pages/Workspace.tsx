@@ -8,6 +8,7 @@ export default function Workspace() {
     { to:'/informations', icon:FolderOpen, title:'Informations', text:'Une source commune pour les coordonnées et les données du projet.' },
     { to:'/metamorphose', icon:ScanLine, title:'Sources & canevas', text:'Importer, sélectionner, composer. Les outils existants, au même endroit.' },
     { to:'/templates', icon:Layers, title:'Sites & templates', text:'Trois directions pour votre site de célébration, reliées au projet.' },
+    { to:'/participations', icon:Layers, title:'Participations mariage', text:'Relier les prestataires, confirmer les engagements et préparer la coordination.' },
     { to:'/personnes', icon:FolderOpen, title:'Personnes & prestataires', text:'Un profil, plusieurs rôles et un mini-site personnalisable.' },
     { to:'/poste', icon:Mail, title:'Poste', text:'Enveloppes, colis et cartes postales. Préparer sans ressaisir.' },
     { to:'/kits', icon:Package, title:'Kits & livraisons', text:'Choisir les créations à réunir dans un dossier de préparation.' },
