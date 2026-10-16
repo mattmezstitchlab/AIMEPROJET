@@ -58,7 +58,7 @@ export function Sceau({ label, color, font }: { label: string; color: string; fo
       <circle cx="50" cy="50" r="41" fill="none" stroke={color} strokeWidth="0.7" strokeDasharray="2 2.4" />
       <text fill={color} fontSize="7.5" fontFamily={font} letterSpacing="2.4">
         <textPath href={`#${id}`} startOffset="50%" textAnchor="middle">
-          AIME · OBJET AUTHENTIFIÉ ·
+          AIME · CRÉATION DÉCORATIVE ·
         </textPath>
       </text>
       <text

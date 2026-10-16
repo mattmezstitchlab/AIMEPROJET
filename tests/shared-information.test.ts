@@ -59,3 +59,15 @@ test('postal coordinates are reusable tokens without changing existing documents
   assert.equal(interpolate(address, variables), '12 rue des Lilas · 44000 Rezé');
   assert.ok(address.includes('{{ville_destinataire}}'));
 });
+
+test('new library compositions use the contemporary style without changing explicit legacy styles', async () => {
+  const { buildComposition } = await import('../src/lib/build');
+  const { OBJETS } = await import('../src/lib/objects');
+  for (const object of OBJETS) {
+    const composition = buildComposition(object.id);
+    assert.equal(composition.styleId, 'studio-clair');
+    assert.ok(composition.nodes.length > 0);
+    assert.ok(composition.nodes.every(node => !node.italique));
+  }
+  assert.equal(buildComposition(OBJETS[0].id, undefined, 'encre-seche').styleId, 'encre-seche');
+});

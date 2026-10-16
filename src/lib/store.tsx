@@ -265,14 +265,14 @@ export function AimeProvider({ children }: { children: ReactNode }) {
 
   const nouvelleComposition: Ctx["nouvelleComposition"] = useCallback((objetId) => {
     setProjet((p) => {
-      const c = buildComposition(objetId, undefined, comp?.styleId ?? "encre-seche");
+      const c = buildComposition(objetId, undefined, "studio-clair");
       return log(
         { ...p, compositions: [...p.compositions, c], actifId: c.id, validation: { ...p.validation, inserer: true } },
         `Composition créée · ${c.nom} · ${c.id}`,
       );
     });
     setSelId(null);
-  }, [comp?.styleId]);
+  }, []);
 
   const supprimerComposition: Ctx["supprimerComposition"] = useCallback((id) => {
     setProjet((p) => {

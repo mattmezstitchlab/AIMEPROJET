@@ -23,6 +23,7 @@ export function Surface({
   return (
     <div
       className={className}
+      data-artwork="true"
       style={{
         aspectRatio: ratio,
         width: width ? `${width}px` : "100%",

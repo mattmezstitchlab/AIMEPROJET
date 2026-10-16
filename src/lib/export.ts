@@ -52,7 +52,7 @@ function codeSvg(value: string, color: string, bg: string) {
 
 function sceauSvg(label: string, color: string, font: string) {
   const id = "a" + hash(label);
-  return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><defs><path id="${id}" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs><circle cx="50" cy="50" r="47" fill="none" stroke="${color}" stroke-width="1.4"/><circle cx="50" cy="50" r="41" fill="none" stroke="${color}" stroke-width="0.7" stroke-dasharray="2 2.4"/><text fill="${color}" font-size="7.5" font-family="${font}" letter-spacing="2.4"><textPath href="#${id}" startOffset="50%" text-anchor="middle">AIME · OBJET AUTHENTIFIÉ ·</textPath></text><text x="50" y="57" text-anchor="middle" fill="${color}" font-size="${label.length > 6 ? 12 : 18}" font-family="${font}">${esc(label)}</text></svg>`;
+  return `<svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><defs><path id="${id}" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs><circle cx="50" cy="50" r="47" fill="none" stroke="${color}" stroke-width="1.4"/><circle cx="50" cy="50" r="41" fill="none" stroke="${color}" stroke-width="0.7" stroke-dasharray="2 2.4"/><text fill="${color}" font-size="7.5" font-family="${font}" letter-spacing="2.4"><textPath href="#${id}" startOffset="50%" text-anchor="middle">AIME · CRÉATION DÉCORATIVE ·</textPath></text><text x="50" y="57" text-anchor="middle" fill="${color}" font-size="${label.length > 6 ? 12 : 18}" font-family="${font}">${esc(label)}</text></svg>`;
 }
 
 export function compositionJSON(
