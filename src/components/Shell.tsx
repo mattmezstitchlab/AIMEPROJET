@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { to: "/", code: "◆", label: "Mon kit" },
+  { to: "/", code: "◆", label: "Mon espace" },
   { to: "/metamorphose", code: "◇", label: "Canevas" },
   { to: "/informations", code: "↗", label: "Informations" },
+  { to: "/poste", code: "✉", label: "Poste" },
+  { to: "/kits", code: "▣", label: "Kits & livraisons" },
   { to: "/vision", code: "00", label: "Vision" },
   { to: "/bibliotheque", code: "01", label: "Bibliothèque" },
   { to: "/styles", code: "02", label: "Styles" },
@@ -25,7 +27,7 @@ export function Shell({ children }: { children: ReactNode }) {
       <aside className="no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
         <div className="flex lg:flex-col w-full">
           <div className="flex items-center justify-between px-4 py-3 lg:py-5 lg:border-b border-line w-full">
-            <NavLink to="/" className="group" title="Revenir au kit AIME Studio">
+            <NavLink to="/" className="group" title="Revenir à l’espace AIME Studio">
               <div className="font-display text-[26px] leading-none tracking-[0.12em] text-chalk">
                 AIME<span className="text-vermillon">®</span>
               </div>

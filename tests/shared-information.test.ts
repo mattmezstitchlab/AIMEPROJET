@@ -47,3 +47,15 @@ test('HTML exports resolve shared images without prefixing data URLs and escape 
   assert.ok(!html.includes('<script>alert(1)</script>'));
   assert.match(html, /&lt;script&gt;/);
 });
+
+test('postal coordinates are reusable tokens without changing existing documents', () => {
+  let variables = migrateEvent([], null);
+  variables = updateVariables(variables, 'adresse_destinataire', '12 rue des Lilas');
+  variables = updateVariables(variables, 'code_postal_destinataire', '44000');
+  variables = updateVariables(variables, 'ville_destinataire', 'Nantes');
+  const address = '{{adresse_destinataire}} · {{code_postal_destinataire}} {{ville_destinataire}}';
+  assert.equal(interpolate(address, variables), '12 rue des Lilas · 44000 Nantes');
+  variables = updateVariables(variables, 'ville_destinataire', 'Rezé');
+  assert.equal(interpolate(address, variables), '12 rue des Lilas · 44000 Rezé');
+  assert.ok(address.includes('{{ville_destinataire}}'));
+});

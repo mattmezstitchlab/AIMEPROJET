@@ -9,20 +9,24 @@ import Grille from "./pages/Grille";
 import Atelier from "./pages/Atelier";
 import Specification from "./pages/Specification";
 import Metamorphose from "./pages/Metamorphose";
-import EventKit from "./pages/EventKit";
+import Workspace from "./pages/Workspace";
+import Poste from "./pages/Poste";
+import Kits from "./pages/Kits";
 
 export default function App() {
   return (
     <AimeProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<EventKit />} />
+          <Route path="/" element={<Workspace />} />
           <Route path="/metamorphose" element={<Metamorphose />} />
           <Route
             path="*"
             element={
               <Shell>
                 <Routes>
+                  <Route path="/poste" element={<Poste />} />
+                  <Route path="/kits" element={<Kits />} />
                   <Route path="/informations" element={<SharedInformation />} />
                   <Route path="/vision" element={<Accueil />} />
                   <Route path="/bibliotheque" element={<Bibliotheque />} />
