@@ -78,7 +78,7 @@ export default function Metamorphose() {
   const fileRef = useRef<HTMLInputElement>(null);
   const jsonRef = useRef<HTMLInputElement>(null);
 
-  const [vue, setVue] = useState<Vue>("accueil");
+  const [vue, setVue] = useState<Vue>(() => new URLSearchParams(window.location.search).get("vue") === "canevas" ? "canevas" : "accueil");
   const [menu, setMenu] = useState<Menu>(null);
   const [entree, setEntree] = useState<Entree>(null);
   const [sousEntree, setSousEntree] = useState("pages");
@@ -282,13 +282,14 @@ export default function Metamorphose() {
     <div className="h-screen flex flex-col bg-vault text-chalk overflow-hidden">
       {/* ——— Header ——— */}
       <header className="no-print relative z-50 border-b border-line px-3 py-2 flex items-center gap-2 flex-wrap">
-        <Link to="/vision" className="font-display text-[22px] leading-none tracking-[0.1em] mr-1">
+        <Link to="/" className="font-display text-[22px] leading-none tracking-[0.1em] mr-1">
           AIME<span className="text-vermillon">®</span>
         </Link>
         <span className="font-mono text-[8.5px] uppercase tracking-[0.22em] text-chalk-dim hidden sm:block mr-2">
           Métamorphose
         </span>
 
+        <Link to="/informations" className="studio-data-link">Informations partagées ↗</Link>
         {capsules.map((c) => (
           <button
             key={c.id}
@@ -361,6 +362,8 @@ export default function Metamorphose() {
                         <span className="font-mono text-[9px] text-sauge w-[70px] shrink-0 truncate">{v.cle}</span>
                         <input
                           value={v.valeur}
+                          readOnly={v.cle === "date" || v.cle === "studio_data_version"}
+                          title={v.cle === "date" ? "Date calculée : modifiez date_iso ou utilisez les Informations partagées" : v.note}
                           onChange={(e) => setVar(v.cle, e.target.value)}
                           className="flex-1 min-w-0 bg-vault-3 border border-line px-1.5 py-[3px] font-mono text-[10px] outline-none focus:border-vermillon"
                         />
@@ -1379,7 +1382,9 @@ function PanneauCapsule({
                   <span className="font-mono text-[9px] text-sauge w-[66px] shrink-0 truncate">{v.cle}</span>
                   <input
                     value={v.valeur}
-                    onChange={(e) => setVar(v.cle, e.target.value)}
+                    readOnly={v.cle === "date" || v.cle === "studio_data_version"}
+                          title={v.cle === "date" ? "Date calculée : modifiez date_iso ou utilisez les Informations partagées" : v.note}
+                          onChange={(e) => setVar(v.cle, e.target.value)}
                     className="flex-1 min-w-0 bg-vault-3 border border-line px-1.5 py-[3px] font-mono text-[10px] outline-none focus:border-vermillon"
                   />
                 </div>

@@ -1,33 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useAime } from '../lib/store';
+import { dateLabel, eventKeys, readEvent, type EventData } from '../lib/event-data';
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Check, Download, ImagePlus, Layers, RefreshCw } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { download, slug } from '../lib/export';
 import './event-kit.css';
 
-type EventData = { title: string; description: string; date: string; time: string; location: string; price: string; registration: string; organization: string; image: string; theme: string };
-const KEY = 'aime.event-kit.v1';
-const initial: EventData = { title: 'Les beaux\njours ensemble.', description: 'Un atelier pour créer, partager et faire fleurir les idées. Ouvert à toutes les curiosités.', date: '2026-11-21', time: '14:00', location: 'Maison des associations · Lyon', price: 'Entrée libre', registration: '', organization: 'L’atelier du quartier', image: '', theme: 'sage' };
 const formats = [{ id: 'poster', label: 'Affiche A4', detail: 'À imprimer · 210 × 297 mm' }, { id: 'social', label: 'Publication sociale', detail: 'À partager · 1080 × 1080 px' }, { id: 'invitation', label: 'Invitation', detail: 'À envoyer · 148 × 105 mm' }];
-function load(): EventData {
-  try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (!saved || typeof saved !== 'object') return initial; return Object.fromEntries(Object.entries(initial).map(([key, value]) => [key, typeof saved[key] === 'string' ? saved[key] : value])) as EventData; } catch { return initial; }
-}
-function dateLabel(date: string) { const parsed = new Date(`${date}T12:00:00`); return Number.isNaN(parsed.getTime()) ? 'Date à préciser' : parsed.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }); }
 export default function EventKit() {
-  const [event, setEvent] = useState<EventData>(load);
-  const [saved, setSaved] = useState(true);
+  const { projet, setVar, creerSupportLie, sauvegarde } = useAime();
+  const navigate = useNavigate();
+  const event = readEvent(projet.variables);
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
   const [exported, setExported] = useState('');
   const cards = useRef<Record<string, HTMLDivElement | null>>({});
   const snapshot = JSON.stringify(event);
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      try { localStorage.setItem(KEY, snapshot); setSaved(true); } catch { setSaved(false); }
-    }, 150);
-    return () => window.clearTimeout(timer);
-  }, [snapshot]);
-  const patch = (key: keyof EventData, value: string) => setEvent(current => ({ ...current, [key]: value }));
+  const patch = (key: keyof EventData, value: string) => setVar(eventKeys[key], value);
   const missing = [['title', 'un titre'], ['date', 'une date'], ['time', 'un horaire'], ['location', 'un lieu']].filter(([key]) => !event[key as keyof EventData].trim()).map(([, label]) => label);
   const longText = event.title.length > 85 || event.description.length > 230 || event.location.length > 90;
   const invalidUrl = !!event.registration && !/^https?:\/\/[^\s]+$/i.test(event.registration);
@@ -58,10 +48,10 @@ export default function EventKit() {
     } catch { setNotice('L’export a échoué. Réessayez avec une image plus légère ou sans photo.'); } finally { setBusy(false); }
   }
   return <div className="ek">
-    <header className="ek-nav"><Link className="ek-logo" to="/">aime<span>studio</span></Link><span className="ek-nav-caption">De l’idée au monde réel.</span><Link to="/metamorphose" className="ek-atelier">Atelier avancé <ArrowUpRight size={15}/></Link></header>
+    <header className="ek-nav"><Link className="ek-logo" to="/">aime<span>studio</span></Link><Link className="ek-nav-caption" to="/informations">Mes informations partagées ↗</Link><Link to="/metamorphose" className="ek-atelier">Atelier avancé <ArrowUpRight size={15}/></Link></header>
     <main className="ek-main">
       <section className="ek-hero"><div className="ek-eyebrow"><span/> UN ÉVÉNEMENT. TOUT EST LIÉ.</div><h1>Une idée.<br/><span>Tous ses formats.</span></h1><p>Créez votre événement une seule fois.<br/>L’affiche, la publication et l’invitation suivent.</p><a href="#create" className="ek-primary">Créer mon kit <ArrowUpRight size={17}/></a><div className="ek-hero-note">Sans compte. Sans ressaisie. Simplement ensemble.</div></section>
-      <section id="create" className="ek-workspace"><div className="ek-section-head"><div><span className="ek-overline">VOTRE ESPACE DE CRÉATION</span><h2>Tout part d’ici.</h2></div><span className="ek-save"><Check size={14}/>{saved ? 'Enregistré sur cet appareil' : 'Stockage indisponible : exportez votre kit'}</span></div>
+      <section id="create" className="ek-workspace"><div className="ek-section-head"><div><span className="ek-overline">VOTRE ESPACE DE CRÉATION</span><h2>Tout part d’ici.</h2></div><span className="ek-save"><Check size={14}/>{sauvegarde ? "Informations partagées du projet" : "Stockage plein : exportez votre projet depuis le canevas"}</span></div>
       <div className="ek-layout"><aside className="ek-form"><div className="ek-form-heading"><span className="ek-step">1</span><h3>Votre événement</h3></div><p className="ek-muted">Une seule source. Trois supports à jour.</p>
         <label>Organisateur<input value={event.organization} maxLength={70} onChange={e => patch('organization', e.target.value)}/></label>
         <label>Le titre<textarea rows={2} value={event.title} maxLength={100} onChange={e => patch('title', e.target.value)}/></label>
@@ -78,7 +68,7 @@ export default function EventKit() {
         <div className="ek-art-visual">{event.image ? <img src={event.image} alt="Visuel de l’événement"/> : <div className="ek-flower" aria-hidden="true">✳</div>}<span className="ek-art-pill">{event.price || 'Bienvenue'}</span></div>
         <div className="ek-art-content"><h4>{event.title || 'Votre événement'}</h4><p>{event.description}</p><div className="ek-art-date">{dateLabel(event.date)}{event.time && ` · ${event.time.replace(':', ' h ')}`}</div><div className="ek-art-location">{event.location || 'Lieu à préciser'}</div>{event.registration && <div className="ek-art-url">{event.registration}</div>}</div>
         <div className="ek-art-footer"><span>On se retrouve ?</span><span>Vous êtes les bienvenus. ↗</span></div>
-      </div></div><div className="ek-format-label"><div><strong>{format.label}</strong><span>{format.detail}</span></div><button disabled={busy} onClick={() => void exportKit(format.id)} aria-label={`Télécharger : ${format.label}`}><Download size={17}/></button></div></section>)}</div>
+      </div></div><div className="ek-format-label"><div><strong>{format.label}</strong><button className="ek-open-canvas" onClick={() => { creerSupportLie(format.id as 'poster' | 'social' | 'invitation'); navigate('/metamorphose?vue=canevas'); }}>Créer une version liée dans le canevas ↗</button><span>{format.detail}</span></div><button disabled={busy} onClick={() => void exportKit(format.id)} aria-label={`Télécharger : ${format.label}`}><Download size={17}/></button></div></section>)}</div>
       <div className="ek-sync"><RefreshCw size={20}/><div><strong>Changez l’heure. Pas trois fois.</strong><p>Chaque modification se retrouve immédiatement sur les trois supports.</p></div></div>
       </div></div>
       <div className="ek-export"><div><h3>Prêt à faire passer le mot ?</h3><p>Un fichier HTML contenant vos trois images PNG, à enregistrer ou imprimer.</p></div><button className="ek-primary" disabled={busy} onClick={() => void exportKit()}><Download size={17}/>{busy ? 'Préparation…' : 'Télécharger mon kit'}</button></div>

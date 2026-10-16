@@ -4,7 +4,9 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { to: "/", code: "◆", label: "Métamorphose" },
+  { to: "/", code: "◆", label: "Mon kit" },
+  { to: "/metamorphose", code: "◇", label: "Canevas" },
+  { to: "/informations", code: "↗", label: "Informations" },
   { to: "/vision", code: "00", label: "Vision" },
   { to: "/bibliotheque", code: "01", label: "Bibliothèque" },
   { to: "/styles", code: "02", label: "Styles" },
@@ -23,12 +25,12 @@ export function Shell({ children }: { children: ReactNode }) {
       <aside className="no-print lg:fixed lg:inset-y-0 lg:left-0 lg:w-[208px] border-b lg:border-b-0 lg:border-r border-line bg-vault z-40 flex lg:flex-col">
         <div className="flex lg:flex-col w-full">
           <div className="flex items-center justify-between px-4 py-3 lg:py-5 lg:border-b border-line w-full">
-            <NavLink to="/" className="group" title="Revenir au canevas MÉTAMORPHOSE">
+            <NavLink to="/" className="group" title="Revenir au kit AIME Studio">
               <div className="font-display text-[26px] leading-none tracking-[0.12em] text-chalk">
                 AIME<span className="text-vermillon">®</span>
               </div>
               <div className="font-mono text-[8.5px] uppercase tracking-[0.22em] text-chalk-dim mt-1">
-                Bibliothèque universelle
+                Studio de création
               </div>
             </NavLink>
             <button className="lg:hidden text-chalk-dim" onClick={() => setOpen(!open)} aria-label="Menu">
@@ -66,7 +68,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
         <div className="hidden lg:block mt-auto p-4 border-t border-line">
           <p className="font-mono text-[9px] leading-relaxed text-chalk-dim/70 uppercase tracking-[0.14em]">
-            V1 · MÉTAMORPHOSE
+            AIME Studio
             <br />
             Matière → Objet → Composition
             <br />

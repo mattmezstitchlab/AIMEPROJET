@@ -177,6 +177,17 @@ export function Inspector() {
       </Group>
 
       <Group titre="5 · Contenu et données">
+        {['titre', 'texte', 'image', 'numero', 'code'].includes(sel.kind) && <div className="shared-binding">
+          <label htmlFor="bind-info">Lier à une information</label>
+          <select id="bind-info" value={(sel.kind === 'image' ? sel.src : sel.text)?.match(/^\{\{([\w-]+)\}\}$/)?.[1] ?? ''} onChange={e => {
+            if (e.target.value) u(sel.kind === 'image' ? { src: '{{' + e.target.value + '}}' } : { text: '{{' + e.target.value + '}}' });
+          }}>
+            <option value="">Choisir une information…</option>
+            {projet.variables.filter(v => sel.kind === 'image' ? v.cle === 'photo' : !['photo', 'studio_data_version', 'palette'].includes(v.cle)).map(v => <option key={v.cle} value={v.cle}>{v.cle}</option>)}
+          </select>
+          <p>Le contenu lié suit les informations du projet. Saisir un texte libre le rend indépendant.</p>
+        </div>}
+
         {sel.kind === "image" ? (
           <Row label="Source">
             <Select

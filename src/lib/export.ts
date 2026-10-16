@@ -135,8 +135,11 @@ export function compositionHTML(
                 `<div style="display:flex;justify-content:space-between;gap:1em;border-bottom:1px dotted ${col(n.ink)}55;padding-bottom:.25em;${typo}"><span style="opacity:.62;text-transform:uppercase;letter-spacing:.12em;font-size:${n.size * 0.84}cqw">${esc(interpolate(r.k, vars))}</span><span>${esc(interpolate(r.v, vars))}</span></div>`,
             )
             .join("")}</div>`;
-        case "image":
-          return `<div style="${pos}"><img src="${origin}${n.src}" alt="${esc(n.nom)}" style="width:100%;height:100%;object-fit:cover;border-radius:${n.radius || style.radius}px"/></div>`;
+        case "image": {
+          const source = interpolate(n.src ?? "", vars);
+          const resolved = source.startsWith('/') ? origin + source : source;
+          return `<div style="${pos}"><img src="${esc(resolved)}" alt="${esc(n.nom)}" style="width:100%;height:100%;object-fit:cover;border-radius:${n.radius || style.radius}px"/></div>`;
+        }
         case "filet":
           return `<div style="${pos}background:${n.fill === "none" ? col(n.ink) : col(n.fill)}"></div>`;
         case "forme":

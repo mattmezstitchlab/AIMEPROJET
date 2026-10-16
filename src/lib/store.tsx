@@ -1,3 +1,5 @@
+import { linkedComposition } from "./linked-composition";
+import { migrateEvent, updateVariables } from "./event-data";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type {
@@ -66,8 +68,11 @@ function projetInitial(): Projet {
 
 /** Migration douce : les projets déjà enregistrés localement restent valides. */
 function normaliser(p: Projet): Projet {
+  let legacy: unknown = null;
+  try { legacy = JSON.parse(localStorage.getItem("aime.event-kit.v1") || "null"); } catch { /* invalid legacy data */ }
   return {
     ...p,
+    variables: migrateEvent(p.variables, legacy),
     sources: p.sources?.length ? p.sources : SOURCES_DEMO,
     fragments: p.fragments ?? [],
     journal: p.journal ?? [],
@@ -94,6 +99,8 @@ interface Ctx {
   nouvelleComposition: (objetId: string) => void;
   supprimerComposition: (id: string) => void;
   setActif: (id: string) => void;
+  sauvegarde: boolean;
+  creerSupportLie: (format: 'poster' | 'social' | 'invitation') => void;
   setVar: (cle: string, valeur: string) => void;
   ajouterVar: (cle: string, valeur: string) => void;
   supprimerVar: (cle: string) => void;
@@ -125,17 +132,18 @@ export function AimeProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-    return projetInitial();
+    return normaliser(projetInitial());
   });
   const [selId, setSelId] = useState<string | null>(null);
   const [pile, setPile] = useState<{ compId: string; nodes: AimeNode[]; archetypeId: string }[]>([]);
 
+  const [sauvegarde, setSauvegarde] = useState(true);
   useEffect(() => {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(projet));
-    } catch {
-      /* quota */
-    }
+    const timer = window.setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify(projet)); setSauvegarde(true); }
+      catch { setSauvegarde(false); }
+    }, 100);
+    return () => window.clearTimeout(timer);
   }, [projet]);
 
   const comp = useMemo(
@@ -282,7 +290,7 @@ export function AimeProvider({ children }: { children: ReactNode }) {
   const setVar: Ctx["setVar"] = useCallback((cle, valeur) => {
     setProjet((p) => ({
       ...p,
-      variables: p.variables.map((v) => (v.cle === cle ? { ...v, valeur } : v)),
+      variables: updateVariables(p.variables, cle, valeur),
       validation: { ...p.validation, relier: true },
     }));
   }, []);
@@ -302,7 +310,7 @@ export function AimeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const reset = useCallback(() => {
-    setProjet(projetInitial());
+    setProjet(normaliser(projetInitial()));
     setPile([]);
     setSelId(null);
   }, []);
@@ -441,7 +449,15 @@ export function AimeProvider({ children }: { children: ReactNode }) {
     setSelId(null);
   }, []);
 
+  const creerSupportLie: Ctx['creerSupportLie'] = useCallback((format) => {
+    const c = linkedComposition(format);
+    setProjet(p => ({ ...p, compositions: [...p.compositions, c], actifId: c.id }));
+    setSelId(null);
+  }, []);
+
   const value: Ctx = {
+    sauvegarde,
+    creerSupportLie,
     projet,
     comp,
     style: styleById(comp?.styleId ?? "encre-seche"),

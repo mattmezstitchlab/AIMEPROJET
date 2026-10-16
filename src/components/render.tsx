@@ -169,9 +169,10 @@ export function NodeBody({
         </div>
       );
     case "image":
+      if (!interpolate(node.src ?? "", vars)) return <div aria-label="Ajoutez une photo dans les informations du projet" style={{ width: "100%", height: "100%", background: style.palette.muted, borderRadius: node.radius || style.radius }} />;
       return (
         <img
-          src={node.src}
+          src={interpolate(node.src ?? "", vars) || undefined}
           alt={node.nom}
           draggable={false}
           style={{

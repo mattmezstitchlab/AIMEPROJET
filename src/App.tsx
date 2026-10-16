@@ -1,3 +1,4 @@
+import SharedInformation from "./components/SharedInformation";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Shell } from "./components/Shell";
 import { AimeProvider } from "./lib/store";
@@ -22,6 +23,7 @@ export default function App() {
             element={
               <Shell>
                 <Routes>
+                  <Route path="/informations" element={<SharedInformation />} />
                   <Route path="/vision" element={<Accueil />} />
                   <Route path="/bibliotheque" element={<Bibliotheque />} />
                   <Route path="/styles" element={<StylesPage />} />
